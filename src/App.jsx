@@ -11,6 +11,12 @@ const options = {
     ]
   ],
   props: [
+    /*
+    // This does not work because withVisible is not a singleton with key
+    withVisible, [
+      'visible',
+    ],
+    */
     (state) => {
       return state.scenes.App && 
         state.scenes.App.Alert && 
