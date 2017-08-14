@@ -5,6 +5,9 @@ import { Provider } from 'react-redux';
 import store from './store';
 import App from './App.jsx';
 
-render(<Provider store={store}>
-    <App id="Alert1"/>
-  </Provider>, document.getElementById('root'));
+function Root() {
+  return <Provider store={store}>
+  <App />
+</Provider>; 
+}
+render(<Root />, document.getElementById('root'));

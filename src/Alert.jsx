@@ -1,11 +1,15 @@
 import React from 'react';
-import Visible from './Visible';
+import withVisible from './with-visible';
 
-const EnhancedAlert = Visible(function ({ message, visible, actions: {hide} }) { return (visible && 
-<div>
-  {message} 
-  &nbsp;
-  <button onClick={hide}>x</button>
-</div>)
+const EnhancedAlert = withVisible(
+  function Alert(props) {
+    const { message, visible, actions: {hide} } = props;
+    return (visible && 
+      <div>
+        {message} 
+        &nbsp;
+        <button onClick={hide}>x</button>
+      </div>);
 });
+
 export default EnhancedAlert;

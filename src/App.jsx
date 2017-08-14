@@ -1,28 +1,43 @@
 import React from 'react';
-import { kea } from 'kea';
+import { connect } from 'kea';
 import Alert from './Alert.jsx';
-import Visible from './Visible';
+import withVisible from './with-visible';
 
 const options = {
   actions: [
-    Visible, [
+    withVisible, [
       'show',
       'hide'
     ]
   ],
   props: [
-    Visible, [
-      'visible'
+    (state) => {
+      return state.scenes.App && 
+        state.scenes.App.Alert && 
+        state.scenes.App.Alert.Alert1 && 
+        state.scenes.App.Alert.Alert2 ? state.scenes.App.Alert: {
+        Alert1: { visible: true },
+        Alert2: { visible: true }
+      }
+    }, [
+      'Alert1',
+      'Alert2'
     ]
-  ]
-
-}
-
-const App = function(props) { return (<div> 
-    {props.visible} 
-    <Alert message="Hello React" visible={true} id="Alert1" />
-    <Alert message="Hello again React" visible={true} id="Alert2"/>
-  </div>)
+  ],
 };
 
-export default kea({ connect: options })(App);
+function App (props) { 
+  const { actions: { show } } = props;
+  return (
+    <div>
+      <Alert message="Hello React" id="Alert1"/>
+      <button onClick={() => show({ key: 'Alert1'})} disabled={props.Alert1.visible}>Show Alert</button> <br />
+      <Alert message="Hello again React" id="Alert2"/>
+      <button onClick={() => show({ key: 'Alert2'})} disabled={props.Alert2.visible}>Show Alert</button>
+    </div>
+  );
+}
+
+const EnhancedApp = connect(options)(App);
+
+export default EnhancedApp;
