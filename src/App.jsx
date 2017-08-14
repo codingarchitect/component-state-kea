@@ -12,7 +12,7 @@ const options = {
   ],
   props: [
     /*
-    // This does not work because withVisible is not a singleton with key
+    // This does not work because withVisible is not a singleton (it has a key)
     withVisible, [
       'visible',
     ],
