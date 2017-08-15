@@ -1,15 +1,15 @@
 import React from 'react';
 import withVisible from './with-visible';
 
-const EnhancedAlert = withVisible(
-  function Alert(props) {
-    const { message, visible, actions: {hide} } = props;
-    return (visible && 
-      <div>
-        {message} 
-        &nbsp;
-        <button onClick={hide}>x</button>
-      </div>);
-});
+function Alert (props) { 
+  const { message, isVisible, id, actions: { hideAlert } } = props;
+  return isVisible ? (<div>
+    {message}
+    &nbsp;
+    <button onClick={() => hideAlert(id)}>x</button>
+  </div>) : null;  
+}
+
+const EnhancedAlert = withVisible(Alert);
 
 export default EnhancedAlert;

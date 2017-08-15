@@ -1,17 +1,20 @@
 import { kea } from 'kea';
 import PropTypes from 'prop-types';
+import useVisible from './use-visible';
 
 export default kea({
-  key: ({id}) => id,
-  path: (key) => ['scenes', 'App', 'Alert', key],  
-  actions: () => ({
-    show: (args) => ({ ...args, type: 'show' }),
-    hide: (args) => ({ ...args, type: 'hide' }),
-  }),
-  reducers: ({ actions, key }) => ({
-    visible: [true, PropTypes.bool, {
-      [actions.show]: (state, payload) => payload.key === key ? true : state,
-      [actions.hide]: (state, payload) => payload.key === key ? false : state,
-    }]
+  connect: {
+    actions: [
+      useVisible, [
+        'hideAlert'
+      ]
+    ],
+  },
+  selectors: () => ({
+    isVisible: [
+      () => [(_, props) => props.id, useVisible.selectors.visibleAlerts],
+      (id, visibleAlerts) => visibleAlerts[id] || false,
+      PropTypes.bool
+    ]
   })
 });
